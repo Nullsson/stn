@@ -13,7 +13,7 @@
    #define _CRT_NON_CONFORMING_SWPRINTFS
    #endif
    #if !defined(_MSC_VER) || _MSC_VER > 1700
-   #include <intrin.h> // _BitScanReverse
+   #include <intrin.h>
    #endif
 #endif
 
@@ -26,23 +26,30 @@
 #define STN_INTERNAL        static
 #define STN_LOCAL_PERSIST   static
 
-typedef float           r32;
-typedef double          r64;
-typedef unsigned char   ubyte;
-typedef unsigned int    uint;
-typedef char            i8;
-typedef unsigned char   u8;
-typedef int16_t         i16;
-typedef uint16_t        u16;
-typedef int32_t         i32;
-typedef uint32_t        u32;
-typedef int64_t         i64;
-typedef uint64_t        u64;
-typedef i32             b32;
-typedef i8              s8;
-typedef i16             s16;
-typedef i32             s32;
-typedef i64             s64;
+// NOTE(Oskar): Had to add this define for legacy projects of mine that already
+//              have all of theese typedefs.
+#ifndef STN_NO_TYPES
+   typedef float           r32;
+   typedef double          r64;
+   typedef unsigned char   ubyte;
+   typedef unsigned int    uint;
+   typedef char            i8;
+   typedef unsigned char   u8;
+   typedef int16_t         i16;
+   typedef uint16_t        u16;
+   typedef int32_t         i32;
+   typedef uint32_t        u32;
+   typedef int64_t         i64;
+   typedef uint64_t        u64;
+   typedef i32             b32;
+   typedef i8              s8;
+   typedef i16             s16;
+   typedef i32             s32;
+   typedef i64             s64;
+
+   typedef uintptr_t       umm;
+   typedef intptr_t        smm;
+#endif
 
 #define STN_U16MAX 65535
 #define STN_I32MIN ((i32)0x80000000)

@@ -1,0 +1,3 @@
+[submodule "HyperTest"]
+	path = HyperTest
+	url = https://github.com/brokenprogrammer/HyperTest
