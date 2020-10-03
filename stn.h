@@ -60,13 +60,6 @@
 #define STN_R32MAX FLT_MAX
 #define STN_R32MIN -FLT_MAX
 
-#define STN_PI                              (3.1415926535897f)
-#define STN_PIf                             3.1415926535897f
-#define STN_ONE_OVER_SQUARE_ROOT_OF_TWO_PI  0.3989422804
-#define STN_ONE_OVER_SQUARE_ROOT_OF_TWO_PIf 0.3989422804f
-#define STN_EULERS_NUMBER                   2.7182818284590452353602874713527
-#define STN_EULERS_NUMBERf                  2.7182818284590452353602874713527f
-
 #define STN_Bytes(n)      (n)
 #define STN_Kilobytes(n)  (Bytes(n)*1024)
 #define STN_Megabytes(n)  (Kilobytes(n)*1024)
