@@ -149,4 +149,110 @@ StringContains(char *A, char *B)
     return (Result);
 }
 
+STN_INTERNAL b32
+CharIsSpace(char C)
+{
+    return (C <= 32);
+}
+
+STN_INTERNAL b32
+CharIsAlpha(char C)
+{
+    return ((C >= 'a' && C <= 'z') ||
+            (C >= 'A' && C <= 'Z'));
+}
+
+STN_INTERNAL b32
+CharIsDigit(char C)
+{
+    return (C >= '0' && C <= '9');
+}
+
+STN_INTERNAL b32
+CStringMatchCaseSensitive(const char *String1, const char *String2)
+{
+    b32 Result = 1;
+
+    if (String1 && String2)
+    {
+        for (u32 Index = 0;; ++Index)
+        {
+            if (String1[Index] != String2[Index])
+            {
+                Result = 0;
+                break;
+            }
+
+            if (String1[Index] == 0 && String2[Index] == 0)
+            {
+                break;
+            }
+        }
+    }
+    else if (String1 || String2)
+    {
+        Result = 0;
+    }
+
+    return (Result);
+}
+
+STN_INTERNAL i32
+GetFirstI32FromCString(char *String)
+{
+    i32 Result = 0;
+
+    int LastDigit = -1;
+
+    for (u32 Index = 0; String[Index]; ++Index)
+    {
+        if (CharIsDigit(String[Index]))
+        {
+            LastDigit = Index;
+        }
+        else if (LastDigit != -1)
+        {
+            break;
+        }
+    }
+
+    if (LastDigit >= 0)
+    {
+        int DigitMultiplier = 1;
+
+        for (int Index = LastDigit; Index >= 0; --Index)
+        {
+            if (CharIsDigit(String[Index]))
+            {
+                int Digit = String[Index] - '0';
+                Result += DigitMultiplier * Digit;
+                DigitMultiplier *= 10;
+            }
+            else
+            {
+                if (String[Index] == '-')
+                {
+                    Result *= -1;
+                }
+                break;
+            }
+        }
+    }
+
+    return (Result);
+}
+
+STN_INTERNAL u32
+HashCString(char *String)
+{
+    u32 Hash = 5381;
+    int C;
+    while((C = *String++))
+    {
+        Hash = ((Hash << 5) + Hash) + C;
+    }
+
+    return (Hash);
+}
+
 #endif // STN_STRING_H
