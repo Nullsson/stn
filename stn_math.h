@@ -1,10 +1,6 @@
 #ifndef STN_MATH_H
 #define STN_MATH_H
 
-#include "stn.h"
-
-#include "math.h"
-
 #define STN_PI                              (3.1415926535897f)
 #define STN_PIf                             3.1415926535897f
 #define STN_ONE_OVER_SQUARE_ROOT_OF_TWO_PI  0.3989422804

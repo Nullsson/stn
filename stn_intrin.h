@@ -1,11 +1,6 @@
 #ifndef STN_INTRIN_H
 #define STN_INTRIN_H
 
-#include "stn.h"
-
-#include "math.h"
-#include <xmmintrin.h>
-
 #if COMPILER_MSVC
 #define CompletePreviousReadsBeforeFutureReads _ReadBarrier()
 #define CompletePreviousWritesBeforeFutureWrites _WriteBarrier();
