@@ -1,5 +1,4 @@
-  
-set CommonCompilerFlags=-Od -MTd -nologo -fp:fast -fp:except- -Gm- -GR- -EHa- -Zo -Oi -WX -W4 -wd4201 -wd4100 -wd4189 -wd4505 -wd4127 -FC -Z7
-set CommonLinkerFlags= -incremental:no -opt:ref user32.lib gdi32.lib winmm.lib
+set CommonCompilerFlags=-nologo /Zi 
+set CommonLinkerFlags=-incremental:no
 
-cl %CommonCompilerFlags% -D_CRT_SECURE_NO_WARNINGS .\stn_unittest.cpp /link %CommonLinkerFlags%
+cl %CommonCompilerFlags% -DBUILD_WINDOWS=1 -DBUILD_LINUX=0 -D_CRT_SECURE_NO_WARNINGS stn_unittest.cpp /link %CommonLinkerFlags%

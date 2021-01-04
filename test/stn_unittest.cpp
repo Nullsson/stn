@@ -1,30 +1,20 @@
-#include "../HyperTest/code/win32_hypertest.cpp"
-
-#define STN_NO_TYPES
+#include "../HyperTest/code/hypertest.cpp"
 #include "../stn.h"
 
 TEST(STN, Max)
 {
-    u32 Big = 1250;
-    u32 Small = 500;
-
-    UNITTEST_ASSERT_TRUE(STN_Max(Big, Small) == 1250);
-
-    Big = 420;
-    Small = 4000;
-
-    UNITTEST_ASSERT_TRUE(STN_Max(Small, Big) == 4000);
+    UNITTEST_ASSERT_TRUE(STN_Max(1250, 500) == 1250);
+    UNITTEST_ASSERT_TRUE(STN_Max(4000, 420) == 4000);
+    UNITTEST_ASSERT_TRUE(STN_Max(0, 0) == 0);
+    UNITTEST_ASSERT_TRUE(STN_Max(1, 0) == 1);
+    UNITTEST_ASSERT_TRUE(STN_Max(0, 1) == 1);
 }
 
 TEST(STN, Min)
 {
-    u32 Big = 502584;
-    u32 Small = 2359;
-
-    UNITTEST_ASSERT_TRUE(STN_Min(Big, Small) == 2359);
-
-    Big = 4392;
-    Small = 9765;
-
-    UNITTEST_ASSERT_TRUE(STN_Min(Big, Small) == 4392);
+    UNITTEST_ASSERT_TRUE(STN_Min(502584, 2359) == 2359);
+    UNITTEST_ASSERT_TRUE(STN_Min(4392, 9765) == 4392);
+    UNITTEST_ASSERT_TRUE(STN_Min(0, 0) == 0);
+    UNITTEST_ASSERT_TRUE(STN_Min(1, 0) == 0);
+    UNITTEST_ASSERT_TRUE(STN_Min(0, 1) == 0);
 }
