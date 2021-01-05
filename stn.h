@@ -17,13 +17,15 @@
    #endif
 #endif
 
-#include <stdlib.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <limits.h>
 #include <float.h>
 #include <math.h>
 #include <xmmintrin.h>
+#include <time.h>
 
 #define STN_GLOBAL          static
 #define STN_INTERNAL        static
@@ -74,6 +76,8 @@
 
 #define STN_Min(a, b) ((a) < (b) ? (a) : (b))
 #define STN_Max(a, b) ((a) > (b) ? (a) : (b))
+
+#define STN_ArrayCount(a) (sizeof(a) / sizeof((a)[0]))
 
 #ifdef STN_USE_ALL
    #include "stn_intrin.h"

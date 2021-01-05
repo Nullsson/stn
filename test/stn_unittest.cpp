@@ -1,6 +1,17 @@
 #include "../HyperTest/code/hypertest.cpp"
 #include "../stn.h"
 
+TEST(STN, ArrayCount)
+{
+    u32 FirstArray[10];
+    UNITTEST_ASSERT_EQUAL(STN_ArrayCount(FirstArray), 10);
+
+    u32 SecondArray[6532];
+    u32 (*SecondArrayCopy)[6532] = &SecondArray;
+    UNITTEST_ASSERT_EQUAL(STN_ArrayCount(SecondArray), 6532);
+    UNITTEST_ASSERT_EQUAL(STN_ArrayCount(*SecondArrayCopy), 6532);
+}
+
 TEST(STN, Max)
 {
     UNITTEST_ASSERT_TRUE(STN_Max(1250, 500) == 1250);
