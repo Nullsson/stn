@@ -106,29 +106,6 @@ StringsAreEqual(char *A, char *B)
 }
 
 STN_INTERNAL b32
-StringCompare(char *A, char *B)
-{
-    b32 Result = false;
-
-    while (*A && *B)
-    {
-        if (*A != *B)
-        {
-            return (Result);
-        }
-        A++;
-        B++;
-    }
-
-    if (*B == '\0')
-    {
-        Result = true;
-    }
-
-    return (Result);
-}
-
-STN_INTERNAL b32
 StringContains(char *A, char *B)
 {
     b32 Result = false;
@@ -137,7 +114,7 @@ StringContains(char *A, char *B)
     {
         while (*A != '\0')
         {
-            if ((*A == *B) && StringCompare(A, B))
+            if ((*A == *B) && StringsAreEqual(A, B))
             {
                 Result = true;
                 break;
