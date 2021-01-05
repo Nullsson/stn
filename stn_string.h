@@ -2,8 +2,6 @@
 #ifndef STN_STRING_H
 #define STN_STRING_H
 
-#include "stn.h"
-
 struct buffer
 {
    umm Count;
