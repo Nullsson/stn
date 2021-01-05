@@ -31,6 +31,11 @@
 #define STN_INTERNAL        static
 #define STN_LOCAL_PERSIST   static
 
+#define MemoryCopy memcpy
+#define MemoryMove memmove
+#define MemorySet  memset
+#define CalculateCStringLength (u32)strlen
+
 // NOTE(Oskar): Had to add this define for legacy projects of mine that already
 //              have all of theese typedefs.
 #ifndef STN_NO_TYPES
@@ -83,6 +88,7 @@
    #include "stn_intrin.h"
    #include "stn_math.h"
    #include "stn_string.h"
+   #include "stn_memory.h"
 #else
    #ifdef STN_USE_INTRIN
    #include "stn_intrin.h"
@@ -94,6 +100,10 @@
 
    #ifdef STN_USE_STRING
    #include "stn_string.h"
+   #endif
+
+   #ifdef STN_USE_MEMORY
+   #include "stn_memory.h"
    #endif
 #endif
 
