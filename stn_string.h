@@ -174,6 +174,20 @@ CStringMatchCaseSensitive(const char *String1, const char *String2)
     return (Result);
 }
 
+STN_INTERNAL void
+CopyCStringToFixedSizeBuffer(char *Destination, u32 DestinationMax, char *Source)
+{
+    for(u32 Index = 0; Index < DestinationMax; ++Index)
+    {
+        Destination[Index] = Source[Index];
+        if(Source[Index] == 0)
+        {
+            break;
+        }
+    }
+    Destination[DestinationMax - 1] = 0;
+}
+
 STN_INTERNAL i32
 GetFirstI32FromCString(char *String)
 {
