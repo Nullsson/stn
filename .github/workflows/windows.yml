@@ -32,3 +32,9 @@ jobs:
         run: |
           cd test
           stn_memory_unittest.exe
+
+      - name: Run stn_string.h Tests
+        shell: cmd
+        run: |
+          cd test
+          stn_string_unittest.exe
