@@ -2,12 +2,14 @@
 #ifndef STN_STRING_H
 #define STN_STRING_H
 
-struct buffer
+struct string
 {
-   umm Count;
-   u8 *Data;
+    char *Data;
+    u32 Length;
+    u32 Size;
+    u32 MaxSize;
+    b32 IsMutable;
 };
-typedef buffer string;
 
 enum string_pattern_match_flag
 {
