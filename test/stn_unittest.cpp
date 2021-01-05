@@ -1,11 +1,6 @@
 #include "../HyperTest/code/hypertest.cpp"
 #include "../stn.h"
 
-TEST(STN, ManualFail)
-{
-    UNITTEST_ASSERT_EQUAL(1, 2);
-}
-
 TEST(STN, ArrayCount)
 {
     u32 FirstArray[10];
