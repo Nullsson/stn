@@ -1,0 +1,37 @@
+name: Linux
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with: 
+          submodules: true
+      
+      - name: Setup gcc
+        run: |
+          sudo apt update
+          sudo apt install build-essential
+          gcc --version
+
+      - name: Build
+        shell: bash
+        run: |
+          cd test
+          ./build_gcc.sh
+
+      - name: Run stn.h Tests
+        shell: bash
+        run: |
+          cd test
+          ./stn_unittest
+      
+      - name: Run stn_memory.h Tests
+        shell: bash
+        run: |
+          cd test
+          ./stn_memory_unittest

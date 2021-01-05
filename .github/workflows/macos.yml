@@ -1,0 +1,31 @@
+name: MacOs
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with: 
+          submodules: true
+
+      - name: Build
+        shell: bash
+        run: |
+          cd test
+          ./build_gcc.sh
+
+      - name: Run stn.h Tests
+        shell: bash
+        run: |
+          cd test
+          ./stn_unittest
+      
+      - name: Run stn_memory.h Tests
+        shell: bash
+        run: |
+          cd test
+          ./stn_memory_unittest
