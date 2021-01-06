@@ -174,6 +174,8 @@ CStringMatchCaseSensitive(const char *String1, const char *String2)
     return (Result);
 }
 
+// NOTE(Oskar): This does not verify that the destination buffer is of the correct size.
+//              users of this function will have to verify themselves.
 STN_INTERNAL void
 CopyCStringToFixedSizeBuffer(char *Destination, u32 DestinationMax, char *Source)
 {
