@@ -1,5 +1,6 @@
 #include "../HyperTest/code/hypertest.cpp"
 #define STN_USE_MEMORY
+#define STN_USE_STRING
 #include "../stn.h"
 
 struct byte8
@@ -187,4 +188,60 @@ TEST(STN_Memory, MemoryArenaAllocateCStringCopy)
     }
 
     free(Memory);
+}
+
+TEST(STN_Memory, MemoryArenaReadWrite)
+{
+    void *Memory = (void *)malloc(256);
+    memory_arena Arena = MemoryArenaInit(Memory, 256);
+
+    char *String = "0123456789";
+    UNITTEST_EXPECT_EQUAL(MemoryArenaWrite(&Arena, (void *)String, 10), 1);
+
+    char *C = (char *)Memory + 0;
+    UNITTEST_EXPECT_EQUAL(*C, '0');
+    C = (char *)Memory + 1;
+    UNITTEST_EXPECT_EQUAL(*C, '1');
+    C = (char *)Memory + 2;
+    UNITTEST_EXPECT_EQUAL(*C, '2');
+    C = (char *)Memory + 3;
+    UNITTEST_EXPECT_EQUAL(*C, '3');
+    C = (char *)Memory + 4;
+    UNITTEST_EXPECT_EQUAL(*C, '4');
+    C = (char *)Memory + 5;
+    UNITTEST_EXPECT_EQUAL(*C, '5');
+    C = (char *)Memory + 6;
+    UNITTEST_EXPECT_EQUAL(*C, '6');
+    C = (char *)Memory + 7;
+    UNITTEST_EXPECT_EQUAL(*C, '7');
+    C = (char *)Memory + 8;
+    UNITTEST_EXPECT_EQUAL(*C, '8');
+    C = (char *)Memory + 9;
+    UNITTEST_EXPECT_EQUAL(*C, '9');
+
+    for (u32 Index = 0; Index < 256; ++Index)
+    {
+        char *Num = (char *)Memory + Index;
+        *Num = Index; 
+    }
+    u32 SomeNumber = 0;
+
+    UNITTEST_EXPECT_EQUAL(MemoryArenaRead(&Arena, &SomeNumber, 1), 1);
+
+    char *Number = (char *)Memory + Arena.MemoryAllocPosition - 1;
+    UNITTEST_ASSERT_EQUAL(SomeNumber, *Number)
+}
+
+TEST(STN_Memory, MakeStringOnMemoryArena)
+{
+    void *Memory = (void *)malloc(256);
+    memory_arena Arena = MemoryArenaInit(Memory, 256);
+
+    string String = MakeStringOnMemoryArena(&Arena, "%s", "Nullsson");
+    UNITTEST_ASSERT_EQUAL(String.Length, 8);
+    UNITTEST_ASSERT_EQUAL(String.Size, 9);
+    UNITTEST_ASSERT_EQUAL(String.MaxSize, 9);
+    UNITTEST_ASSERT_EQUAL(String.IsMutable, 0);
+    UNITTEST_ASSERT_TRUE(StringsAreEqual(String.Data, "Nullsson"));
+    UNITTEST_ASSERT_EQUAL(Arena.MemoryLeft, 256 - String.Size);
 }
