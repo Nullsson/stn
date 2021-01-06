@@ -28,29 +28,31 @@ inline uint32 AtomicCompareExchangeUInt32(uint32 volatile *Value, uint32 New, ui
 // NOTE(Oskar): Intel intristics helper defines.
 #define STN_MMSquare(A) _mm_mul_ps(A, A)
 #define STN_MMSquare256(A) _mm256_mul_ps(A, A)
-#define STN_MMIndexF(A, I) ((r32 *)&(A))[I]
+#define STN_MMIndexF(A, I) ((f32 *)&(A))[I]
 #define STN_MMIndexI(A, I) ((u32 *)&(A))[I]
 
 inline s32
-RoundReal32ToInt32(r32 Real32)
+RoundReal32ToInt32(f32 F32)
 {
-    u32 Result = (u32)_mm_cvtss_si32(_mm_set_ss(Real32));
+    u32 Result = (u32)_mm_cvtss_si32(_mm_set_ss(F32));
     return (Result);
 }
 
 inline i32
-FloorReal32ToInt32(r32 R32)
+FloorReal32ToInt32(f32 F32)
 {
     // TODO(Oskar): SSE 4.1?
-    i32 Result = _mm_cvtss_si32(_mm_floor_ss(_mm_setzero_ps(), _mm_set_ss(R32)));
-return(Result);
+    i32 Result = _mm_cvtss_si32(_mm_floor_ss(_mm_setzero_ps(), _mm_set_ss(F32)));
+    
+    return(Result);
 }
 
 inline i32
-CeilReal32ToInt32(r32 R32)
+CeilReal32ToInt32(f32 F32)
 {
     // TODO: SSE 4.1?
-    i32 Result = _mm_cvtss_si32(_mm_ceil_ss(_mm_setzero_ps(), _mm_set_ss(R32)));
+    i32 Result = _mm_cvtss_si32(_mm_ceil_ss(_mm_setzero_ps(), _mm_set_ss(F32)));
+    
     return(Result);
 }
 

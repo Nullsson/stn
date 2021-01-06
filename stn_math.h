@@ -2,130 +2,70 @@
 #define STN_MATH_H
 
 #define STN_PI                              (3.1415926535897f)
-#define STN_PIf                             3.1415926535897f
+#define STN_PIF                             3.1415926535897f
 #define STN_ONE_OVER_SQUARE_ROOT_OF_TWO_PI  0.3989422804
-#define STN_ONE_OVER_SQUARE_ROOT_OF_TWO_PIf 0.3989422804f
+#define STN_ONE_OVER_SQUARE_ROOT_OF_TWO_PIF 0.3989422804f
 #define STN_EULERS_NUMBER                   2.7182818284590452353602874713527
-#define STN_EULERS_NUMBERf                  2.7182818284590452353602874713527f
-
-inline r32
-Sin(r32 Angle)
-{
-    r32 Result = sinf(Angle);
-
-    return (Result);
-}
-
-inline r32
-Cos(r32 Angle)
-{
-    r32 Result = cosf(Angle);
-
-    return (Result);
-}
-
-inline r32
-ATan2(r32 Y, r32 X)
-{
-    r32 Result = atan2f(Y, X);
-
-    return (Result);
-}
-
-STN_INTERNAL r32
-Square(r32 Value)
-{
-    r32 Result = Value * Value;
-
-    return (Result);
-}
-
-inline r32
-SquareRoot(r32 Value)
-{
-    r32 Result = sqrtf(Value);
-    return (Result);
-}
-
-inline r32
-AbsoluteValue(r32 Value)
-{
-    r32 Result = fabsf(Value);
-    return(Result);
-}
-
-inline r32
-Lerp(r32 A, r32 B, r32 t)
-{
-    r32 Result = A + (t * (B - A));
-
-    return (Result);
-}
-
-STN_INTERNAL r32
-Maximumr32(r32 A, r32 B)
-{
-    return A > B ? A : B;
-}
+#define STN_EULERS_NUMBERF                  2.7182818284590452353602874713527f
 
 union vector2
 {
     struct
     {
-        r32 X;
-        r32 Y;
+        f32 X;
+        f32 Y;
     };
 
     struct
     {
-        r32 Width;
-        r32 Height;
+        f32 Width;
+        f32 Height;
     };
 
-    r32 Elements[2];
+    f32 Elements[2];
 };
 
 union vector3
 {
     struct
     {
-        r32 X;
-        r32 Y;
-        r32 Z;
+        f32 X;
+        f32 Y;
+        f32 Z;
     };
 
     struct
     {
-        r32 R;
-        r32 G;
-        r32 B;
+        f32 R;
+        f32 G;
+        f32 B;
     };
 
-    r32 Elements[3];
+    f32 Elements[3];
 };
 
 union vector4
 {
     struct
     {
-        r32 X;
-        r32 Y;
+        f32 X;
+        f32 Y;
         union
         {
             struct
             {
-                r32 Z;
+                f32 Z;
 
                 union
                 {
-                    r32 W;
-                    r32 Radius;
+                    f32 W;
+                    f32 Radius;
                 };
             };
             struct
             {
-                r32 Width;
-                r32 Height;
+                f32 Width;
+                f32 Height;
             };
         };
     };
@@ -133,22 +73,97 @@ union vector4
     struct
     {
         vector3 XYZ;
-        r32 _Unused;
+        f32 _Unused;
     };
 
     struct
     {
-        r32 R;
-        r32 G;
-        r32 B;
-        r32 A;
+        f32 R;
+        f32 G;
+        f32 B;
+        f32 A;
     };
 
-    r32 Elements[4];
+    f32 Elements[4];
 };
 
+struct matrix4
+{
+    f32 Elements[4][4];
+};
+
+inline f32
+Sin(f32 Angle)
+{
+    f32 Result = sinf(Angle);
+
+    return (Result);
+}
+
+inline f32
+Cos(f32 Angle)
+{
+    f32 Result = cosf(Angle);
+
+    return (Result);
+}
+
+inline f32
+Tan(f32 Angle)
+{
+    f32 Result = tanf(Angle);
+
+    return (Result);
+}
+
+inline f32
+ATan2(f32 Y, f32 X)
+{
+    f32 Result = atan2f(Y, X);
+
+    return (Result);
+}
+
+inline f32
+Square(f32 Value)
+{
+    f32 Result = Value * Value;
+
+    return (Result);
+}
+
+inline f32
+SquareRoot(f32 Value)
+{
+    f32 Result = sqrtf(Value);
+
+    return (Result);
+}
+
+inline f32
+AbsoluteValue(f32 Value)
+{
+    f32 Result = fabsf(Value);
+
+    return(Result);
+}
+
+inline f32
+Lerp(f32 A, f32 B, f32 t)
+{
+    f32 Result = A + (t * (B - A));
+
+    return (Result);
+}
+
+STN_INTERNAL f32
+MaximumF32(f32 A, f32 B)
+{
+    return A > B ? A : B;
+}
+
 STN_INTERNAL vector2
-Vector2Init(r32 X, r32 Y)
+Vector2Init(f32 X, f32 Y)
 {
     vector2 Result = { X, Y };
     return (Result);
@@ -162,28 +177,35 @@ Vector2Add(vector2 A, vector2 B)
 }
 
 STN_INTERNAL vector2
-Vector2Multiplyr32(vector2 V, r32 F)
+Vector2Minus(vector2 A, vector2 B)
+{
+    vector2 Result = { A.X - B.X, A.Y - B.Y };
+    return (Result);
+}
+
+STN_INTERNAL vector2
+Vector2MultiplyF32(vector2 V, f32 F)
 {
     V.X *= F;
     V.Y *= F;
     return (V);
 }
 
-STN_INTERNAL r32
+STN_INTERNAL f32
 Vector2Dot(vector2 A, vector2 B)
 {
-    r32 Result = A.X * B.X + A.Y * B.Y;
+    f32 Result = A.X * B.X + A.Y * B.Y;
     return (Result);
 }
 
-STN_INTERNAL r32
+STN_INTERNAL f32
 Vector2LengthSquared(vector2 V)
 {
-    r32 Result = V.X * V.X + V.Y * V.Y;
+    f32 Result = V.X * V.X + V.Y * V.Y;
     return (Result);
 }
 
-STN_INTERNAL r32
+STN_INTERNAL f32
 Vector2Length(vector2 V)
 {
     return SquareRoot(Vector2LengthSquared(V));
@@ -193,7 +215,7 @@ Vector2Length(vector2 V)
 STN_INTERNAL vector2
 Vector2Normalize(vector2 V)
 {
-    r32 Length = SquareRoot(Vector2LengthSquared(V));
+    f32 Length = SquareRoot(Vector2LengthSquared(V));
     V.X /= Length;
     V.Y /= Length;
 
@@ -201,7 +223,7 @@ Vector2Normalize(vector2 V)
 }
 
 STN_INTERNAL vector3
-Vector3Init(r32 X, r32 Y, r32 Z)
+Vector3Init(f32 X, f32 Y, f32 Z)
 {
     vector3 Result = { X, Y, Z };
     return (Result);
@@ -222,7 +244,7 @@ Vector3Minus(vector3 A, vector3 B)
 }
 
 STN_INTERNAL vector3
-Vector3Multiplyr32(vector3 V, r32 F)
+Vector3MultiplyF32(vector3 V, f32 F)
 {
     V.X *= F;
     V.Y *= F;
@@ -230,14 +252,14 @@ Vector3Multiplyr32(vector3 V, r32 F)
     return (V);
 }
 
-STN_INTERNAL r32
+STN_INTERNAL f32
 Vector3LengthSquared(vector3 V)
 {
-    r32 Result = V.X*V.X + V.Y * V.Y + V.Z * V.Z;
+    f32 Result = V.X*V.X + V.Y * V.Y + V.Z * V.Z;
     return (Result);
 }
 
-STN_INTERNAL r32
+STN_INTERNAL f32
 Vector3Length(vector3 V)
 {
     return SquareRoot(Vector3LengthSquared(V));
@@ -246,15 +268,15 @@ Vector3Length(vector3 V)
 STN_INTERNAL vector3
 Vector3Normalize(vector3 V)
 {
-    r32 Length = Vector3Length(V);
+    f32 Length = Vector3Length(V);
     vector3 Result = { V.X / Length, V.Y / Length, V.Z / Length };
     return (Result);
 }
 
-STN_INTERNAL r32
+STN_INTERNAL f32
 Vector3Dot(vector3 A, vector3 B)
 {
-    r32 Result = A.X * B.X + A.Y * B.Y + A.Z * B.Z;
+    f32 Result = A.X * B.X + A.Y * B.Y + A.Z * B.Z;
     return (Result);
 }
 
@@ -271,26 +293,26 @@ Vector3Cross(vector3 A, vector3 B)
     return (Result);
 }
 
-STN_INTERNAL float
+STN_INTERNAL f32
 MinimumInVector3(vector3 V)
 {
-    float Minimum = V.X;
+    f32 Minimum = V.X;
     if(V.Y < Minimum) { Minimum = V.Y; }
     if(V.Z < Minimum) { Minimum = V.Z; }
-    return Minimum;
+    return (Minimum);
 }
 
-STN_INTERNAL float
+STN_INTERNAL f32
 MaximumInVector3(vector3 V)
 {
-    float Maximum = V.X;
+    f32 Maximum = V.X;
     if(V.Y > Maximum) { Maximum = V.Y; }
     if(V.Z > Maximum) { Maximum = V.Z; }
-    return Maximum;
+    return (Maximum);
 }
 
-STN_INTERNAL r32
-Clampr32(r32 V, r32 L, r32 H)
+STN_INTERNAL f32
+ClampF32(f32 V, f32 L, f32 H)
 {
     return V < L ? L : V > H ? H : V;
 }
@@ -302,7 +324,7 @@ ClampI32(i32 I, i32 L, i32 H)
 }
 
 STN_INTERNAL vector4
-Vector4Init(r32 X, r32 Y, r32 Z, r32 W)
+Vector4Init(f32 X, f32 Y, f32 Z, f32 W)
 {
     vector4 Result = { X, Y, Z, W };
     return (Result);
@@ -316,16 +338,11 @@ Vector4RectangleHasPoint(vector4 V, vector2 P)
 }
 
 STN_INTERNAL vector4
-Vector4Multiplyr32(vector4 A, r32 F)
+Vector4MultiplyF32(vector4 A, f32 F)
 {
     vector4 C = { A.X * F, A.Y * F, A.Z * F, A.W * F };
     return (C);
 }
-
-struct matrix4
-{
-    r32 Elements[4][4];
-};
 
 STN_INTERNAL vector4
 Vector4MultiplyMatrix4(vector4 V, matrix4 M)
@@ -344,7 +361,7 @@ Vector4MultiplyMatrix4(vector4 V, matrix4 M)
 }
 
 STN_INTERNAL matrix4
-Matrix4InitD(r32 Diagonal)
+Matrix4InitDiagonal(f32 Diagonal)
 {
     matrix4 Result = 
     {
@@ -381,7 +398,7 @@ Matrix4MultiplyMatrix4(matrix4 A, matrix4 B)
 STN_INTERNAL matrix4
 Matrix4TranslateVector3(vector3 Translation)
 {
-    matrix4 Result = Matrix4InitD(1.f);
+    matrix4 Result = Matrix4InitDiagonal(1.f);
     
     Result.Elements[3][0] = Translation.X;
     Result.Elements[3][1] = Translation.Y;
@@ -391,15 +408,15 @@ Matrix4TranslateVector3(vector3 Translation)
 }
 
 STN_INTERNAL matrix4
-Matrix4Rotate(r32 Angle, vector3 Axis)
+Matrix4Rotate(f32 Angle, vector3 Axis)
 {
-    matrix4 Result = Matrix4InitD(1.f);
+    matrix4 Result = Matrix4InitDiagonal(1.f);
     
     Axis = Vector3Normalize(Axis);
     
-    r32 sin_theta = sinf(Angle);
-    r32 cos_theta = cosf(Angle);
-    r32 cos_value = 1.0f - cos_theta;
+    f32 sin_theta = sinf(Angle);
+    f32 cos_theta = cosf(Angle);
+    f32 cos_value = 1.0f - cos_theta;
     
     Result.Elements[0][0] = (Axis.X * Axis.X * cos_value) + cos_theta;
     Result.Elements[0][1] = (Axis.X * Axis.Y * cos_value) + (Axis.Z * sin_theta);
@@ -417,7 +434,7 @@ Matrix4Rotate(r32 Angle, vector3 Axis)
 }
 
 STN_INTERNAL matrix4
-Matrix4Orthographic(r32 Left, r32 Right, r32 Bottom, r32 Top, r32 Near, r32 Far)
+Matrix4Orthographic(f32 Left, f32 Right, f32 Bottom, f32 Top, f32 Near, f32 Far)
 {
     matrix4 Result = {};
 
@@ -432,5 +449,16 @@ Matrix4Orthographic(r32 Left, r32 Right, r32 Bottom, r32 Top, r32 Near, r32 Far)
     return (Result);
 }
 
+STN_INTERNAL matrix4
+Matrix4ScaleVector3(vector3 Scale)
+{
+    matrix4 Result = Matrix4InitDiagonal(1.0f);
+    
+    Result.Elements[0][0] = Scale.X;
+    Result.Elements[1][1] = Scale.Y;
+    Result.Elements[2][2] = Scale.Z;
+    
+    return (Result);
+}
 
 #endif // STN_MATH_H
