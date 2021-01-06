@@ -139,4 +139,35 @@ MemoryArenaRead(memory_arena *Arena, void *Destination, u32 Size)
     return (Success);
 }
 
+#if defined(STN_USE_ALL) || defined(STN_USE_STRING)
+STN_INTERNAL string
+MakeStringOnMemoryArena(memory_arena *Arena, char *Format, ...)
+{
+    string String = {};
+
+    va_list Args;
+    va_start(Args, Format);
+    u32 NeededBytes = vsnprintf(0, 0, Format, Args) + 1;
+    va_end(Args);
+
+    String.Data = (char *)MemoryArenaAllocate(Arena, NeededBytes);
+    
+    if (String.Data)
+    {
+        String.Length = NeededBytes - 1;
+        String.Size = NeededBytes;
+        String.MaxSize = String.Size;
+        String.IsMutable = 0;
+
+        va_start(Args, Format);
+        vsnprintf(String.Data, NeededBytes, Format, Args);
+        va_end(Args);
+
+        String.Data[NeededBytes - 1] = 0;
+    }
+
+    return (String);
+}
+#endif // defined(STN_USE_ALL) || defined(STN_USE_STRING)
+
 #endif // STN_MEMORY_H

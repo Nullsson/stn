@@ -106,29 +106,6 @@ StringsAreEqual(char *A, char *B)
 }
 
 STN_INTERNAL b32
-StringCompare(char *A, char *B)
-{
-    b32 Result = false;
-
-    while (*A && *B)
-    {
-        if (*A != *B)
-        {
-            return (Result);
-        }
-        A++;
-        B++;
-    }
-
-    if (*B == '\0')
-    {
-        Result = true;
-    }
-
-    return (Result);
-}
-
-STN_INTERNAL b32
 StringContains(char *A, char *B)
 {
     b32 Result = false;
@@ -137,7 +114,7 @@ StringContains(char *A, char *B)
     {
         while (*A != '\0')
         {
-            if ((*A == *B) && StringCompare(A, B))
+            if ((*A == *B) && StringsAreEqual(A, B))
             {
                 Result = true;
                 break;
@@ -195,6 +172,22 @@ CStringMatchCaseSensitive(const char *String1, const char *String2)
     }
 
     return (Result);
+}
+
+// NOTE(Oskar): This does not verify that the destination buffer is of the correct size.
+//              users of this function will have to verify themselves.
+STN_INTERNAL void
+CopyCStringToFixedSizeBuffer(char *Destination, u32 DestinationMax, char *Source)
+{
+    for(u32 Index = 0; Index < DestinationMax; ++Index)
+    {
+        Destination[Index] = Source[Index];
+        if(Source[Index] == 0)
+        {
+            break;
+        }
+    }
+    Destination[DestinationMax - 1] = 0;
 }
 
 STN_INTERNAL i32

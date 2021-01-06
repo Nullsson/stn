@@ -35,3 +35,9 @@ jobs:
         run: |
           cd test
           ./stn_memory_unittest
+
+      - name: Run stn_string.h Tests
+        shell: bash
+        run: |
+          cd test
+          ./stn_string_unittest
