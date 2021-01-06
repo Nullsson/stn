@@ -40,8 +40,8 @@
 // NOTE(Oskar): Had to add this define for legacy projects of mine that already
 //              have all of theese typedefs.
 #ifndef STN_NO_TYPES
-   typedef float           r32;
-   typedef double          r64;
+   typedef float           f32;
+   typedef double          f64;
    typedef unsigned char   ubyte;
    typedef unsigned int    uint;
    typedef char            i8;
@@ -68,8 +68,8 @@
 #define STN_U32MIN 0
 #define STN_U32MAX ((u32)-1)
 #define STN_U64MAX ((u64)-1)
-#define STN_R32MAX FLT_MAX
-#define STN_R32MIN -FLT_MAX
+#define STN_F32MAX FLT_MAX
+#define STN_F32MIN -FLT_MAX
 
 #define STN_Bytes(n)      (n)
 #define STN_Kilobytes(n)  (Bytes(n)*1024)

@@ -35,3 +35,9 @@ jobs:
         run: |
           cd test
           ./stn_string_unittest
+
+      - name: Run stn_math.h Tests
+        shell: bash
+        run: |
+          cd test
+          ./stn_math_unittest
