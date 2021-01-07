@@ -1,11 +1,15 @@
 # stn
 
+![Windows](https://github.com/Nullsson/stn/workflows/Windows/badge.svg?branch=master)
+![Linux](https://github.com/Nullsson/stn/workflows/Linux/badge.svg?branch=master)
+![MacOs](https://github.com/Nullsson/stn/workflows/MacOs/badge.svg?branch=master)
+
 stn is a collection of in-house libraries used in C/C++ projects at Nullsson.
 Inspired by Sean Barrett's talk [Advice for Writing Small Programs in C](https://www.youtube.com/watch?v=eAhWIO1Ra6M), his popular [stb](https://github.com/nothings/stb) libraries and the [Handmade Movement](https://handmade.network/manifesto). We decided to use this as our startingpoint when moving towards software we can all be proud of.
 
 ## Usage
 
-stn is structured in a way where the user only have to include `stn.h`. Which modules to include is specified using different defines above your include. Example: 
+stn is structured in a way where the user only have to include `stn.h`. Which modules to include is specified using different defines above your include. Example:
 
 ```C
 #define STN_USE_MATH
