@@ -1,5 +1,5 @@
 /*
-   stn_math.h - v1.0.0
+   stn_math.h - v1.1.0
 
    ----------------------------------------------------------------------------
 
@@ -358,6 +358,20 @@ Vector4Init(f32 X, f32 Y, f32 Z, f32 W)
     return (Result);
 }
 
+STN_INTERNAL vector4
+Vector4AddVector4(vector4 A, vector4 B)
+{
+    vector4 Result = { A.X + B.X, A.Y + B.Y, A.Z + B.Z, A.W + B.W };
+    return (Result);
+}
+
+STN_INTERNAL vector4
+Vector4MinusVector4(vector4 A, vector4 B)
+{
+    vector4 Result = { A.X - B.X, A.Y - B.Y, A.Z - B.Z, A.W - B.W };
+    return (Result);
+}
+
 STN_INTERNAL b32
 Vector4RectangleHasPoint(vector4 V, vector2 P)
 {
@@ -368,8 +382,15 @@ Vector4RectangleHasPoint(vector4 V, vector2 P)
 STN_INTERNAL vector4
 Vector4MultiplyF32(vector4 A, f32 F)
 {
-    vector4 C = { A.X * F, A.Y * F, A.Z * F, A.W * F };
-    return (C);
+    vector4 Result = { A.X * F, A.Y * F, A.Z * F, A.W * F };
+    return (Result);
+}
+
+STN_INTERNAL vector4
+Vector4MultiplyVector4(vector4 A, vector4 B)
+{
+    vector4 Result = { A.X * B.X, A.Y * B.Y, A.Z * B.Z, A.W * B.W };
+    return (Result);
 }
 
 STN_INTERNAL vector4
@@ -421,6 +442,20 @@ Matrix4MultiplyMatrix4(matrix4 A, matrix4 B)
     }
 
     return (Result);
+}
+
+STN_INTERNAL matrix4
+Matrix4MultiplyF32(matrix4 A, f32 B)
+{
+    for(int J = 0; J < 4; ++J)
+    {
+        for(int I = 0; I < 4; ++I)
+        {
+            A.Elements[I][J] *= B;
+        }
+    }
+    
+    return (A);
 }
 
 STN_INTERNAL matrix4
