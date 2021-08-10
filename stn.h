@@ -120,6 +120,7 @@
    #include "stn_math.h"
    #include "stn_string.h"
    #include "stn_memory.h"
+   #include "stn_random.h"
 #else
    #ifdef STN_USE_INTRIN
    #include "stn_intrin.h"
@@ -135,6 +136,13 @@
 
    #ifdef STN_USE_MEMORY
    #include "stn_memory.h"
+   #endif
+
+   #ifdef STN_USE_RANDOM
+   #ifndef STN_USE_MATH
+   #include "stn_math.h"
+   #endif
+   #include "stn_random.h"
    #endif
 #endif
 
