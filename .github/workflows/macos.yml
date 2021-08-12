@@ -41,3 +41,9 @@ jobs:
         run: |
           cd test
           ./stn_math_unittest
+
+      - name: Run stn_random.h Tests
+        shell: bash
+        run: |
+          cd test
+          ./stn_random_unittest
