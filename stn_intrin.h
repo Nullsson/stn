@@ -1,5 +1,5 @@
 /*
-   stn_intrin.h - v1.0.0
+   stn_intrin.h - v1.0.1
 
    ----------------------------------------------------------------------------
 
@@ -30,6 +30,7 @@
 #define STN_INTRIN_H
 
 #if COMPILER_MSVC
+
 #define CompletePreviousReadsBeforeFutureReads _ReadBarrier()
 #define CompletePreviousWritesBeforeFutureWrites _WriteBarrier();
 
@@ -40,6 +41,7 @@ inline u32 AtomicCompareExchangeUInt32(u32 volatile *Value, u32 New, u32 Expecte
     return (Result);
 }
 #elif COMPILER_LLVM
+
 #define CompletePreviousReadsBeforeFutureReads asm volatile("" ::: "memory")
 #define CompletePreviousWritesBeforeFutureWrites asm volatile("" ::: "memory")
 
