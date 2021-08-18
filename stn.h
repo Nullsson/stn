@@ -1,5 +1,5 @@
 /*
-   stn.h - v1.0.1
+   stn.h - v1.0.2
 
    ----------------------------------------------------------------------------
 
@@ -40,6 +40,7 @@
    #define _CRT_NON_CONFORMING_SWPRINTFS
    #endif
    #if !defined(_MSC_VER) || _MSC_VER > 1700
+   #define STN_COMPILER_MSVC // TODO(Oskar): Check for and support more compilers for intrin.
    #include <intrin.h>
    #endif
 #endif
