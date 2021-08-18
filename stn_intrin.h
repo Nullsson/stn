@@ -1,5 +1,5 @@
 /*
-   stn_intrin.h - v1.0.0
+   stn_intrin.h - v1.0.1
 
    ----------------------------------------------------------------------------
 
@@ -29,17 +29,50 @@
 #ifndef STN_INTRIN_H
 #define STN_INTRIN_H
 
-#if COMPILER_MSVC
+#ifdef STN_COMPILER_MSVC
+
 #define CompletePreviousReadsBeforeFutureReads _ReadBarrier()
 #define CompletePreviousWritesBeforeFutureWrites _WriteBarrier();
 
-inline u32 AtomicCompareExchangeUInt32(u32 volatile *Value, u32 New, u32 Expected)
+inline u32 AtomicCompareExchangeU32(u32 volatile *Value, u32 New, u32 Expected)
 {
     u32 Result = _InterlockedCompareExchange((long *)Value, New, Expected);
 
     return (Result);
 }
+
+inline u32 AtomicExchangeU32(u32 volatile *Value, u32 New)
+{
+    u32 Result = _InterlockedExchange((long *)Value, New);
+
+    return (Result);
+}
+
+inline u32 AtomicAddU32(u32 volatile *Value, u32 Addend)
+{
+    // NOTE(Oskar): Returns the original value before adding.
+    u32 Result = _InterlockedExchangeAdd((long *)Value, Addend);
+
+    return (Result);
+}
+
+inline u64 AtomicExchangeU64(u64 volatile *Value, u64 New)
+{
+    u64 Result = _InterlockedExchange64((__int64 *)Value, New);
+
+    return (Result);
+}
+
+inline u64 AtomicAddU64(u64 volatile *Value, u64 Addend)
+{
+    // NOTE(Oskar): Returns the original value before adding.
+    u64 Result = _InterlockedExchangeAdd64((__int64 *)Value, Addend);
+
+    return (Result);
+}
+
 #elif COMPILER_LLVM
+
 #define CompletePreviousReadsBeforeFutureReads asm volatile("" ::: "memory")
 #define CompletePreviousWritesBeforeFutureWrites asm volatile("" ::: "memory")
 
