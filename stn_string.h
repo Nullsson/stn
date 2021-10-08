@@ -101,16 +101,53 @@ MatchPattern(char *Pattern, char *String)
 inline u32
 StringLength(char *String)
 {
-    u32 Count = 0;
-    if (String)
+    char *CharPointer;
+    uint64_t *BigPointer;
+    uint64_t BigWord;
+    uint64_t HighMagic = 0x8080808080808080
+    uint64_t LowMagic = 0x0101010101010101;
+
+    // NOTE(Oskar): Handle first few bytes "manually" to align memory to uint64_t
+    for (CharPointer = String; 
+         ((uint64_t) CharPointer & (sizeof(uint64_t) - 1)) != 0;
+         ++CharPointer)
     {
-        while (*String++)
+        if (*CharPointer == '\0')
         {
-            ++Count;
+            return CharPointer - String;
         }
     }
-    
-    return (Count);
+
+    // NOTE(Oskar): Casting this to a uint64_t allows us to perform 64 bit memory reads.
+    BigPointer = (uint64_t *)CharPointer;
+
+    for (;;)
+    {
+        BigWord = *BigPointer++;
+
+        // NOTE(Oskar): Has zero check
+        // source: https://graphics.stanford.edu/~seander/bithacks.html#ZeroInWord
+        if (((BigWord - LowMagic) & ~BigWord & HighMagic) != 0)
+        {
+            const char *cp = (const char *) (BigPointer - 1);
+            if (cp[0] == 0)
+                return cp - String;
+            if (cp[1] == 0)
+                return cp - String + 1;
+            if (cp[2] == 0)
+                return cp - String + 2;
+            if (cp[3] == 0)
+                return cp - String + 3;
+            if (cp[4] == 0)
+                return cp - String + 4;
+            if (cp[5] == 0)
+                return cp - String + 5;
+            if (cp[6] == 0)
+                return cp - String + 6;
+            if (cp[7] == 0)
+                return cp - String + 7;
+        }
+    }
 }
 
 STN_INTERNAL b32
