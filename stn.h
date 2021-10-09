@@ -31,7 +31,9 @@
 
 #if defined(__clang__)
     #define STN_COMPILER_CLANG
-    #include <x86intrin.h>
+    #ifndef __ARM_NEON__
+        #include <x86intrin.h>
+    #endif
 #elif defined(__GNUC__) || defined(__GNUG__)
     #define STN_COMPILER_GCC
 #elif defined(_WIN32) && !defined(__MINGW32__)
