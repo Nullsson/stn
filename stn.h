@@ -33,6 +33,8 @@
     #define STN_COMPILER_CLANG
     #ifndef __ARM_NEON__
         #include <x86intrin.h>
+    #else
+        #define STN_NO_SSE
     #endif
 #elif defined(__GNUC__) || defined(__GNUG__)
     #define STN_COMPILER_GCC
