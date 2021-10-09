@@ -104,7 +104,7 @@ StringLength(char *String)
     char *CharPointer;
     uint64_t *BigPointer;
     uint64_t BigWord;
-    uint64_t HighMagic = 0x8080808080808080
+    uint64_t HighMagic = 0x8080808080808080;
     uint64_t LowMagic = 0x0101010101010101;
 
     // NOTE(Oskar): Handle first few bytes "manually" to align memory to uint64_t
