@@ -31,8 +31,10 @@
 
 #if defined(__clang__)
     #define STN_COMPILER_CLANG
+    #include <x86intrin.h>
 #elif defined(__GNUC__) || defined(__GNUG__)
     #define STN_COMPILER_GCC
+    #include <x86intrin.h>
 #elif defined(_WIN32) && !defined(__MINGW32__)
     #ifndef _CRT_SECURE_NO_WARNINGS
     #define _CRT_SECURE_NO_WARNINGS
