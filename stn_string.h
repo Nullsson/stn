@@ -101,6 +101,33 @@ MatchPattern(char *Pattern, char *String)
 inline u32
 StringLength(char *String)
 {
+#ifdef STN_USE_SSE
+    u32 Result = 0;
+  
+    __m128i Zeroes   = _mm_setzero_si128();
+    __m128i *Pointer = (__m128i *)String;
+
+    int Mask = 0;
+    for (; ; Pointer++, Result += 16)
+    {
+        __m128i Data = _mm_load_si128(Pointer);
+        __m128i Comparison = _mm_cmpeq_epi8(Data, Zeroes);
+
+        if ((Mask = _mm_movemask_epi8(Comparison)) != 0)
+        {
+#if defined(STN_COMPILER_MSVC) || defined(STN_COMPILER_CLANG)
+            unsigned long Position;
+            _BitScanForward(&Position, Mask);
+            Result += Position;
+#elif defined(STN_COMPILER_GCC)
+            Result += __builtin_ctz(Mask);
+#endif
+            break;
+        }
+    }
+
+    return Result;
+#else
     char *CharPointer;
     uint64_t *BigPointer;
     uint64_t BigWord;
@@ -148,6 +175,7 @@ StringLength(char *String)
                 return cp - String + 7;
         }
     }
+#endif
 }
 
 STN_INTERNAL b32

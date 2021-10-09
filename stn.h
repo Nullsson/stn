@@ -29,20 +29,27 @@
 #ifndef STN_H
 #define STN_H
 
-#if defined(_WIN32) && !defined(__MINGW32__)
-   #ifndef _CRT_SECURE_NO_WARNINGS
-   #define _CRT_SECURE_NO_WARNINGS
-   #endif
-   #ifndef _CRT_NONSTDC_NO_DEPRECATE
-   #define _CRT_NONSTDC_NO_DEPRECATE
-   #endif
-   #ifndef _CRT_NON_CONFORMING_SWPRINTFS
-   #define _CRT_NON_CONFORMING_SWPRINTFS
-   #endif
-   #if !defined(_MSC_VER) || _MSC_VER > 1700
-   #define STN_COMPILER_MSVC // TODO(Oskar): Check for and support more compilers for intrin.
-   #include <intrin.h>
-   #endif
+#if defined(__clang__)
+    #define STN_COMPILER_CLANG
+#elif defined(__GNUC__) || defined(__GNUG__)
+    #define STN_COMPILER_GCC
+#elif defined(_WIN32) && !defined(__MINGW32__)
+    #ifndef _CRT_SECURE_NO_WARNINGS
+    #define _CRT_SECURE_NO_WARNINGS
+    #endif
+
+    #ifndef _CRT_NONSTDC_NO_DEPRECATE
+    #define _CRT_NONSTDC_NO_DEPRECATE
+    #endif
+
+    #ifndef _CRT_NON_CONFORMING_SWPRINTFS
+    #define _CRT_NON_CONFORMING_SWPRINTFS
+    #endif
+
+    #if defined(_MSC_VER)
+        #define STN_COMPILER_MSVC // TODO(Oskar): Check for and support more compilers for intrin.
+        #include <intrin.h>
+    #endif
 #endif
 
 #include <stdint.h>
@@ -53,8 +60,24 @@
 #include <limits.h>
 #include <float.h>
 #include <math.h>
-#include <xmmintrin.h>
 #include <time.h>
+
+#ifndef STN_NO_SSE
+    #ifdef _MSC_VER
+        // NOTE(Oskar): MSVC supports SSE in amd64 mode or _M_IX86_FP >= 1 (2 means SSE2)
+        #if defined(_M_AMD64) || ( defined(_M_IX86_FP) && _M_IX86_FP >= 1)
+            #define STN_USE_SSE 1
+        #endif
+        #else // NOTE(Oskar): Not MSVC but instead GCC / Clang or something.
+        #ifdef __SSE__
+            #define STN_USE_SSE 1
+        #endif
+    #endif
+#endif
+
+#if STN_USE_SSE
+    #include <xmmintrin.h>
+#endif
 
 #define STN_GLOBAL          static
 #define STN_INTERNAL        static

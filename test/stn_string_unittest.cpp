@@ -1,4 +1,5 @@
 #include "../HyperTest/code/hypertest.cpp"
+#define STN_NO_SSE
 #define STN_USE_STRING
 #include "../stn.h"
 
