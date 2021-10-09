@@ -115,11 +115,11 @@ StringLength(char *String)
 
         if ((Mask = _mm_movemask_epi8(Comparison)) != 0)
         {
-#if defined(STN_COMPILER_MSVC) || defined(STN_COMPILER_CLANG)
+#if defined(STN_COMPILER_MSVC)
             unsigned long Position;
             _BitScanForward(&Position, Mask);
             Result += Position;
-#elif defined(STN_COMPILER_GCC)
+#elif defined(STN_COMPILER_GCC) || defined(STN_COMPILER_CLANG)
             Result += __builtin_ctz(Mask);
 #endif
             break;
