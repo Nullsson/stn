@@ -110,7 +110,7 @@ StringLength(char *String)
     int Mask = 0;
     for (; ; Pointer++, Result += 16)
     {
-        __m128i Data = _mm_load_si128(Pointer);
+        __m128i Data = _mm_loadu_si128(Pointer);
         __m128i Comparison = _mm_cmpeq_epi8(Data, Zeroes);
 
         if ((Mask = _mm_movemask_epi8(Comparison)) != 0)
