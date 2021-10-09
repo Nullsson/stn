@@ -41,7 +41,7 @@ jobs:
         run: |
           cd test
           ./stn_string_sse_unittest
-	  
+
       - name: Run stn_math.h Tests
         shell: bash
         run: |
