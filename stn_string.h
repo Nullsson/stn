@@ -129,14 +129,14 @@ StringLength(char *String)
     return Result;
 #else
     char *CharPointer;
-    uint64_t *BigPointer;
-    uint64_t BigWord;
-    uint64_t HighMagic = 0x8080808080808080;
-    uint64_t LowMagic = 0x0101010101010101;
+    u64 *BigPointer;
+    u64 BigWord;
+    u64 HighMagic = 0x8080808080808080;
+    u64 LowMagic = 0x0101010101010101;
 
-    // NOTE(Oskar): Handle first few bytes "manually" to align memory to uint64_t
+    // NOTE(Oskar): Handle first few bytes "manually" to align memory to u64
     for (CharPointer = String; 
-         ((uint64_t) CharPointer & (sizeof(uint64_t) - 1)) != 0;
+         ((u64) CharPointer & (sizeof(u64) - 1)) != 0;
          ++CharPointer)
     {
         if (*CharPointer == '\0')
@@ -145,8 +145,8 @@ StringLength(char *String)
         }
     }
 
-    // NOTE(Oskar): Casting this to a uint64_t allows us to perform 64 bit memory reads.
-    BigPointer = (uint64_t *)CharPointer;
+    // NOTE(Oskar): Casting this to a u64 allows us to perform 64 bit memory reads.
+    BigPointer = (u64 *)CharPointer;
 
     for (;;)
     {
