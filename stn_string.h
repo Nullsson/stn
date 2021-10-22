@@ -1,5 +1,5 @@
 /*
-   stn_string.h - v1.0.0
+   stn_string.h - v1.1.0
 
    ----------------------------------------------------------------------------
 
@@ -101,16 +101,81 @@ MatchPattern(char *Pattern, char *String)
 inline u32
 StringLength(char *String)
 {
-    u32 Count = 0;
-    if (String)
+#ifdef STN_USE_SSE
+    u32 Result = 0;
+  
+    __m128i Zeroes   = _mm_setzero_si128();
+    __m128i *Pointer = (__m128i *)String;
+
+    int Mask = 0;
+    for (; ; Pointer++, Result += 16)
     {
-        while (*String++)
+        __m128i Data = _mm_loadu_si128(Pointer);
+        __m128i Comparison = _mm_cmpeq_epi8(Data, Zeroes);
+
+        if ((Mask = _mm_movemask_epi8(Comparison)) != 0)
         {
-            ++Count;
+#if defined(STN_COMPILER_MSVC)
+            unsigned long Position;
+            _BitScanForward(&Position, Mask);
+            Result += Position;
+#elif defined(STN_COMPILER_GCC) || defined(STN_COMPILER_CLANG)
+            Result += __builtin_ctz(Mask);
+#endif
+            break;
         }
     }
-    
-    return (Count);
+
+    return Result;
+#else
+    char *CharPointer;
+    u64 *BigPointer;
+    u64 BigWord;
+    u64 HighMagic = 0x8080808080808080;
+    u64 LowMagic = 0x0101010101010101;
+
+    // NOTE(Oskar): Handle first few bytes "manually" to align memory to u64
+    for (CharPointer = String; 
+         ((u64) CharPointer & (sizeof(u64) - 1)) != 0;
+         ++CharPointer)
+    {
+        if (*CharPointer == '\0')
+        {
+            return CharPointer - String;
+        }
+    }
+
+    // NOTE(Oskar): Casting this to a u64 allows us to perform 64 bit memory reads.
+    BigPointer = (u64 *)CharPointer;
+
+    for (;;)
+    {
+        BigWord = *BigPointer++;
+
+        // NOTE(Oskar): Has zero check
+        // source: https://graphics.stanford.edu/~seander/bithacks.html#ZeroInWord
+        if (((BigWord - LowMagic) & ~BigWord & HighMagic) != 0)
+        {
+            const char *cp = (const char *) (BigPointer - 1);
+            if (cp[0] == 0)
+                return cp - String;
+            if (cp[1] == 0)
+                return cp - String + 1;
+            if (cp[2] == 0)
+                return cp - String + 2;
+            if (cp[3] == 0)
+                return cp - String + 3;
+            if (cp[4] == 0)
+                return cp - String + 4;
+            if (cp[5] == 0)
+                return cp - String + 5;
+            if (cp[6] == 0)
+                return cp - String + 6;
+            if (cp[7] == 0)
+                return cp - String + 7;
+        }
+    }
+#endif
 }
 
 STN_INTERNAL b32

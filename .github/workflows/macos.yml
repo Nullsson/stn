@@ -36,6 +36,12 @@ jobs:
           cd test
           ./stn_string_unittest
 
+      - name: Run stn_string.h SSE Tests
+        shell: bash
+        run: |
+          cd test
+          ./stn_string_sse_unittest
+
       - name: Run stn_math.h Tests
         shell: bash
         run: |
