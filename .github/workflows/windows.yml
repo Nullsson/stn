@@ -56,3 +56,9 @@ jobs:
         run: |
           cd test
           stn_random_unittest.exe
+
+      - name: Run C Tests
+        shell: cmd
+        run: |
+          cd test
+          stn_c_unittest.exe
