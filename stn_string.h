@@ -1,5 +1,5 @@
 /*
-   stn_string.h - v1.1.0
+   stn_string.h - v1.2.0
 
    ----------------------------------------------------------------------------
 
@@ -29,6 +29,7 @@
 #ifndef STN_STRING_H
 #define STN_STRING_H
 
+typedef struct string string;
 struct string
 {
     char *Data;

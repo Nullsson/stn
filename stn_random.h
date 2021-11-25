@@ -1,5 +1,5 @@
 /*
-   stn_random.h - v1.0.0
+   stn_random.h - v2.1.0
 
    ----------------------------------------------------------------------------
 
@@ -542,6 +542,7 @@ STN_INTERNAL u32 RandomNumberTable[] =
     0x24c0c5d8, 0x18a331cd, 0x113fc1ba, 0x203062bc, 0x04a5fe4b, 0x20361d7f, 0x26b59515, 0x13c8e191,
 };
 
+typedef struct random_sequence random_sequence;
 struct random_sequence
 {
     u32 Index;
@@ -550,7 +551,7 @@ struct random_sequence
 inline random_sequence
 RandomSeed(u32 Value)
 {
-    random_sequence Result = {};
+    random_sequence Result = {0};
     Result.Index = Value % STN_ArrayCount(RandomNumberTable);
     return (Result);
 }
@@ -576,7 +577,7 @@ RandomSingleNumerical(random_sequence *Sequence)
 }
 
 inline i32 
-RandomBetween(random_sequence *Sequence, i32 Min, i32 Max) 
+RandomBetweenI32(random_sequence *Sequence, i32 Min, i32 Max) 
 {
 	i32 Result = Min + (i32)(RandomNextU32(Sequence) % ((Max + 1) - Min));
 
@@ -584,7 +585,7 @@ RandomBetween(random_sequence *Sequence, i32 Min, i32 Max)
 }
 
 inline f32
-RandomBetween(random_sequence *Sequence, f32 Min, f32 Max)
+RandomBetweenF32(random_sequence *Sequence, f32 Min, f32 Max)
 {
 	f32 Result = Lerp(Min, Max, RandomSingleNumerical(Sequence));
 	

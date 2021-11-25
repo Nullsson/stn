@@ -1,5 +1,5 @@
 /*
-   stn_math.h - v1.1.0
+   stn_math.h - v1.2.0
 
    ----------------------------------------------------------------------------
 
@@ -36,6 +36,7 @@
 #define STN_EULERS_NUMBER                   2.7182818284590452353602874713527
 #define STN_EULERS_NUMBERF                  2.7182818284590452353602874713527f
 
+typedef union vector2 vector2;
 union vector2
 {
     struct
@@ -53,6 +54,7 @@ union vector2
     f32 Elements[2];
 };
 
+typedef union vector3 vector3;
 union vector3
 {
     struct
@@ -72,6 +74,7 @@ union vector3
     f32 Elements[3];
 };
 
+typedef union vector4 vector4;
 union vector4
 {
     struct
@@ -115,6 +118,7 @@ union vector4
     f32 Elements[4];
 };
 
+typedef struct matrix4 matrix4;
 struct matrix4
 {
     f32 Elements[4][4];
@@ -396,7 +400,7 @@ Vector4MultiplyVector4(vector4 A, vector4 B)
 STN_INTERNAL vector4
 Vector4MultiplyMatrix4(vector4 V, matrix4 M)
 {
-    vector4 Result = {};
+    vector4 Result = {0};
     
     for(int i = 0; i < 4; ++i)
     {
@@ -428,7 +432,7 @@ Matrix4InitDiagonal(f32 Diagonal)
 STN_INTERNAL matrix4
 Matrix4MultiplyMatrix4(matrix4 A, matrix4 B)
 {
-    matrix4 Result = {};
+    matrix4 Result = {0};
 
     for (int j = 0; j < 4; ++j)
     {
@@ -499,7 +503,7 @@ Matrix4Rotate(f32 Angle, vector3 Axis)
 STN_INTERNAL matrix4
 Matrix4Orthographic(f32 Left, f32 Right, f32 Bottom, f32 Top, f32 Near, f32 Far)
 {
-    matrix4 Result = {};
+    matrix4 Result = {0};
 
     Result.Elements[0][0] = 2.f / (Right - Left);
     Result.Elements[1][1] = 2.f / (Top - Bottom);

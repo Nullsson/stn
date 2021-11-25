@@ -1,5 +1,5 @@
 /*
-   stn_memory.h - v1.0.0
+   stn_memory.h - v1.1.0
 
    ----------------------------------------------------------------------------
 
@@ -32,6 +32,7 @@
 // TODO(Oskar): Add support for memory pools.
 // TODO(Oskar): Add supprot for stack based arena.
 
+typedef struct memory_arena memory_arena;
 struct memory_arena
 {
     void *Memory;
@@ -42,9 +43,13 @@ struct memory_arena
 };
 
 STN_INTERNAL memory_arena
+#ifdef STN_LANGUAGE_C
+MemoryArenaInit(void *Memory, u32 MemorySize, u32 Alignment)
+#else
 MemoryArenaInit(void *Memory, u32 MemorySize, u32 Alignment = 8)
+#endif
 {
-    memory_arena Arena = {};
+    memory_arena Arena = {0};
 
     Arena.Memory = Memory;
     Arena.MemorySize = MemorySize;
@@ -55,7 +60,11 @@ MemoryArenaInit(void *Memory, u32 MemorySize, u32 Alignment = 8)
 }
 
 STN_INTERNAL void *
+#ifdef STN_LANGUAGE_C
+MemoryArenaAllocate(memory_arena *Arena, u32 Size, u32 Alignment)
+#else
 MemoryArenaAllocate(memory_arena *Arena, u32 Size, u32 Alignment = 1)
+#endif
 {
     void *Memory = 0;
 
@@ -83,7 +92,11 @@ MemoryArenaAllocate(memory_arena *Arena, u32 Size, u32 Alignment = 1)
 }
 
 STN_INTERNAL void *
+#ifdef STN_LANGUAGE_C
+MemoryArenaAllocateAndZero(memory_arena *Arena, u32 Size, u32 Alignment)
+#else
 MemoryArenaAllocateAndZero(memory_arena *Arena, u32 Size, u32 Alignment = 1)
+#endif
 {
     void *Memory = MemoryArenaAllocate(Arena, Size, Alignment);
     if (Memory)
@@ -126,7 +139,7 @@ STN_INTERNAL char *
 MemoryArenaAllocateCStringCopy(memory_arena *Arena, char *String)
 {
     u32 StringLength = CalculateCStringLength(String);
-    char *StringCopy = (char *)MemoryArenaAllocate(Arena, StringLength+1);
+    char *StringCopy = (char *)MemoryArenaAllocate(Arena, StringLength+1, 1);
     
     if(StringCopy)
     {
@@ -144,7 +157,7 @@ MemoryArenaWrite(memory_arena *Arena, void *Source, u32 Size)
     
     if (Arena->MemoryLeft >= Size)
     {
-        void *Destination = MemoryArenaAllocate(Arena, Size);
+        void *Destination = MemoryArenaAllocate(Arena, Size, 1);
         MemoryCopy(Destination, Source, Size);
         Success = 1;
     }
@@ -159,7 +172,7 @@ MemoryArenaRead(memory_arena *Arena, void *Destination, u32 Size)
 
     if (Arena->MemoryLeft >= Size)
     {
-        void *Source = MemoryArenaAllocate(Arena, Size);
+        void *Source = MemoryArenaAllocate(Arena, Size, 1);
         MemoryCopy(Destination, Source, Size);
         Success = 1;
     }
@@ -171,14 +184,14 @@ MemoryArenaRead(memory_arena *Arena, void *Destination, u32 Size)
 STN_INTERNAL string
 MakeStringOnMemoryArena(memory_arena *Arena, char *Format, ...)
 {
-    string String = {};
+    string String = {0};
 
     va_list Args;
     va_start(Args, Format);
     u32 NeededBytes = vsnprintf(0, 0, Format, Args) + 1;
     va_end(Args);
 
-    String.Data = (char *)MemoryArenaAllocate(Arena, NeededBytes);
+    String.Data = (char *)MemoryArenaAllocate(Arena, NeededBytes, 1);
     
     if (String.Data)
     {
