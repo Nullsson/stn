@@ -34,21 +34,24 @@
 #define CompletePreviousReadsBeforeFutureReads _ReadBarrier()
 #define CompletePreviousWritesBeforeFutureWrites _WriteBarrier();
 
-inline u32 AtomicCompareExchangeU32(u32 volatile *Value, u32 New, u32 Expected)
+STN_INTERNAL u32 
+AtomicCompareExchangeU32(u32 volatile *Value, u32 New, u32 Expected)
 {
     u32 Result = _InterlockedCompareExchange((long *)Value, New, Expected);
 
     return (Result);
 }
 
-inline u32 AtomicExchangeU32(u32 volatile *Value, u32 New)
+STN_INTERNAL u32 
+AtomicExchangeU32(u32 volatile *Value, u32 New)
 {
     u32 Result = _InterlockedExchange((long *)Value, New);
 
     return (Result);
 }
 
-inline u32 AtomicAddU32(u32 volatile *Value, u32 Addend)
+STN_INTERNAL u32 
+AtomicAddU32(u32 volatile *Value, u32 Addend)
 {
     // NOTE(Oskar): Returns the original value before adding.
     u32 Result = _InterlockedExchangeAdd((long *)Value, Addend);
@@ -56,14 +59,16 @@ inline u32 AtomicAddU32(u32 volatile *Value, u32 Addend)
     return (Result);
 }
 
-inline u64 AtomicExchangeU64(u64 volatile *Value, u64 New)
+STN_INTERNAL u64 
+AtomicExchangeU64(u64 volatile *Value, u64 New)
 {
     u64 Result = _InterlockedExchange64((__int64 *)Value, New);
 
     return (Result);
 }
 
-inline u64 AtomicAddU64(u64 volatile *Value, u64 Addend)
+STN_INTERNAL u64 
+AtomicAddU64(u64 volatile *Value, u64 Addend)
 {
     // NOTE(Oskar): Returns the original value before adding.
     u64 Result = _InterlockedExchangeAdd64((__int64 *)Value, Addend);
@@ -76,7 +81,8 @@ inline u64 AtomicAddU64(u64 volatile *Value, u64 Addend)
 #define CompletePreviousReadsBeforeFutureReads asm volatile("" ::: "memory")
 #define CompletePreviousWritesBeforeFutureWrites asm volatile("" ::: "memory")
 
-inline uint32 AtomicCompareExchangeUInt32(uint32 volatile *Value, uint32 New, uint32 Expected)
+STN_INTERNAL uint32 
+AtomicCompareExchangeUInt32(uint32 volatile *Value, uint32 New, uint32 Expected)
 {
     uint32 Result = __sync_val_compare_and_swap(Value, Expected, New);
 
@@ -92,14 +98,14 @@ inline uint32 AtomicCompareExchangeUInt32(uint32 volatile *Value, uint32 New, ui
 #define STN_MMIndexF(A, I) ((f32 *)&(A))[I]
 #define STN_MMIndexI(A, I) ((u32 *)&(A))[I]
 
-inline s32
+STN_INTERNAL s32
 RoundReal32ToInt32(f32 F32)
 {
     u32 Result = (u32)_mm_cvtss_si32(_mm_set_ss(F32));
     return (Result);
 }
 
-inline i32
+STN_INTERNAL i32
 FloorReal32ToInt32(f32 F32)
 {
     // TODO(Oskar): SSE 4.1?
@@ -108,7 +114,7 @@ FloorReal32ToInt32(f32 F32)
     return(Result);
 }
 
-inline i32
+STN_INTERNAL i32
 CeilReal32ToInt32(f32 F32)
 {
     // TODO: SSE 4.1?

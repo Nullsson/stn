@@ -548,7 +548,7 @@ struct random_sequence
     u32 Index;
 };
 
-inline random_sequence
+STN_INTERNAL random_sequence
 RandomSeed(u32 Value)
 {
     random_sequence Result = {0};
@@ -556,7 +556,7 @@ RandomSeed(u32 Value)
     return (Result);
 }
 
-inline u32 
+STN_INTERNAL u32 
 RandomNextU32(random_sequence *Sequence) 
 {
 	u32 Result = RandomNumberTable[Sequence->Index++];
@@ -567,7 +567,7 @@ RandomNextU32(random_sequence *Sequence)
 	return (Result);
 }
 
-inline f32
+STN_INTERNAL f32
 RandomSingleNumerical(random_sequence *Sequence)
 {
 	f32 Divisor = 1.0f / (f32)1000000000;
@@ -576,7 +576,7 @@ RandomSingleNumerical(random_sequence *Sequence)
 	return (Result);
 }
 
-inline i32 
+STN_INTERNAL i32 
 RandomBetweenI32(random_sequence *Sequence, i32 Min, i32 Max) 
 {
 	i32 Result = Min + (i32)(RandomNextU32(Sequence) % ((Max + 1) - Min));
@@ -584,7 +584,7 @@ RandomBetweenI32(random_sequence *Sequence, i32 Min, i32 Max)
 	return (Result);
 }
 
-inline f32
+STN_INTERNAL f32
 RandomBetweenF32(random_sequence *Sequence, f32 Min, f32 Max)
 {
 	f32 Result = Lerp(Min, Max, RandomSingleNumerical(Sequence));

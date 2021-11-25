@@ -99,7 +99,7 @@ MatchPattern(char *Pattern, char *String)
     return (Result && (*P == 0));
 }
 
-inline u32
+STN_INTERNAL u32
 StringLength(char *String)
 {
 #ifdef STN_USE_SSE

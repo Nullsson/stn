@@ -124,7 +124,7 @@ struct matrix4
     f32 Elements[4][4];
 };
 
-inline f32
+STN_INTERNAL f32
 Sin(f32 Angle)
 {
     f32 Result = sinf(Angle);
@@ -132,7 +132,7 @@ Sin(f32 Angle)
     return (Result);
 }
 
-inline f32
+STN_INTERNAL f32
 Cos(f32 Angle)
 {
     f32 Result = cosf(Angle);
@@ -140,7 +140,7 @@ Cos(f32 Angle)
     return (Result);
 }
 
-inline f32
+STN_INTERNAL f32
 Tan(f32 Angle)
 {
     f32 Result = tanf(Angle);
@@ -148,7 +148,7 @@ Tan(f32 Angle)
     return (Result);
 }
 
-inline f32
+STN_INTERNAL f32
 ATan2(f32 Y, f32 X)
 {
     f32 Result = atan2f(Y, X);
@@ -156,7 +156,7 @@ ATan2(f32 Y, f32 X)
     return (Result);
 }
 
-inline f32
+STN_INTERNAL f32
 Square(f32 Value)
 {
     f32 Result = Value * Value;
@@ -164,7 +164,7 @@ Square(f32 Value)
     return (Result);
 }
 
-inline f32
+STN_INTERNAL f32
 SquareRoot(f32 Value)
 {
     f32 Result = sqrtf(Value);
@@ -172,7 +172,7 @@ SquareRoot(f32 Value)
     return (Result);
 }
 
-inline f32
+STN_INTERNAL f32
 AbsoluteValue(f32 Value)
 {
     f32 Result = fabsf(Value);
@@ -180,7 +180,7 @@ AbsoluteValue(f32 Value)
     return(Result);
 }
 
-inline f32
+STN_INTERNAL f32
 Lerp(f32 A, f32 B, f32 t)
 {
     f32 Result = A + (t * (B - A));
