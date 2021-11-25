@@ -1,5 +1,8 @@
 #include "../HyperTest/code/hypertest.cpp"
-#define STN_USE_ALL
+#define STN_USE_MATH
+#define STN_USE_STRING
+#define STN_USE_MEMORY
+#define STN_USE_RANDOM
 #include "../stn.h"
 
 TEST(STN_Math, Lerp)
