@@ -1,5 +1,5 @@
 /*
-   stn.h - v1.1.2
+   stn.h - v1.2.2
 
    ----------------------------------------------------------------------------
 
@@ -30,11 +30,9 @@
 #define STN_H
 
 #if defined(__clang__)
-    #define STN_COMPILER_CLANG
-    #include <x86intrin.h>
+    #define STN_COMPILER_CLANG 1
 #elif defined(__GNUC__) || defined(__GNUG__)
-    #define STN_COMPILER_GCC
-    #include <x86intrin.h>
+    #define STN_COMPILER_GCC 1
 #elif defined(_WIN32) && !defined(__MINGW32__)
     #ifndef _CRT_SECURE_NO_WARNINGS
     #define _CRT_SECURE_NO_WARNINGS
@@ -49,9 +47,28 @@
     #endif
 
     #if defined(_MSC_VER)
-        #define STN_COMPILER_MSVC // TODO(Oskar): Check for and support more compilers for intrin.
-        #include <intrin.h>
+        #define STN_COMPILER_MSVC 1 // TODO(Oskar): Check for and support more compilers for intrin.
     #endif
+#else
+#error Compiler is currently not supported
+#endif
+
+#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64)
+    #define STN_ARCH_X64 1
+#elif defined(i386) || defined(__i386) || defined(__i386__) || defined(_M_IX86)
+    #define STN_ARCH_X86 1
+#elif defined(__aarch64__)
+    #define STN_ARCH_ARM64 1
+#elif defined(__arm__)
+    #define STN_ARCH_ARM32 1
+#else
+    #error architecture not supported yet
+#endif
+
+#ifdef __cplusplus
+    #define STN_LANGUAGE_CPP 1
+#else
+    #define STN_LANGUAGE_C 1
 #endif
 
 #include <stdint.h>
@@ -63,22 +80,25 @@
 #include <float.h>
 #include <math.h>
 #include <time.h>
+#include <stdbool.h>
 
 #ifndef STN_NO_SSE
-    #ifdef _MSC_VER
-        // NOTE(Oskar): MSVC supports SSE in amd64 mode or _M_IX86_FP >= 1 (2 means SSE2)
-        #if defined(_M_AMD64) || ( defined(_M_IX86_FP) && _M_IX86_FP >= 1)
-            #define STN_USE_SSE 1
-        #endif
-        #else // NOTE(Oskar): Not MSVC but instead GCC / Clang or something.
-        #ifdef __SSE__
-            #define STN_USE_SSE 1
-        #endif
+    #if defined(STN_ARCH_X64) || defined(STN_ARCH_X86)
+        #define STN_USE_SSE 1
     #endif
 #endif
 
 #if STN_USE_SSE
-    #include <xmmintrin.h>
+    #if defined(STN_COMPILER_MSVC)
+        // NOTE(Oskar): MSVC Compiler
+        #include <intrin.h>
+    #elif defined(STN_COMPILER_GCC) && (defined(STN_ARCH_X86) || defined (STN_ARCH_X64))
+        // NOTE(Oskar): GCC-Compatible compiler targeting x86 / x64
+        #include <x86intrin.h>
+    #elif defined(STN_COMPILER_CLANG) && (defined(STN_ARCH_X86) || defined (STN_ARCH_X64))
+        // NOTE(Oskar): Clang compatible compiler targeting x86 / x64
+        #include <x86intrin.h>
+    #endif
 #endif
 
 #define STN_GLOBAL          static

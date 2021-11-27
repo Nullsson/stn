@@ -51,7 +51,7 @@ TEST(STN_Random, RandomBetweenI32)
             Min = Temp;
         }
 
-        i32 RandomNumber = RandomBetween(&RandomSequence, (i32)Min, (i32)Max);
+        i32 RandomNumber = RandomBetweenI32(&RandomSequence, (i32)Min, (i32)Max);
         UNITTEST_ASSERT_TRUE(RandomNumber >= Min);
         UNITTEST_ASSERT_TRUE(RandomNumber <= Max);
     }
@@ -73,7 +73,7 @@ TEST(STN_Random, RandomBetweenF32)
             Min = Temp;
         }
 
-        i32 RandomNumber = RandomBetween(&RandomSequence, (f32)Min, (f32)Max);
+        i32 RandomNumber = RandomBetweenF32(&RandomSequence, (f32)Min, (f32)Max);
         UNITTEST_ASSERT_TRUE(RandomNumber >= Min);
         UNITTEST_ASSERT_TRUE(RandomNumber <= Max);
     }

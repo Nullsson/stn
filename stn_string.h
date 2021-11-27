@@ -1,5 +1,5 @@
 /*
-   stn_string.h - v1.1.0
+   stn_string.h - v1.2.0
 
    ----------------------------------------------------------------------------
 
@@ -29,6 +29,7 @@
 #ifndef STN_STRING_H
 #define STN_STRING_H
 
+typedef struct string string;
 struct string
 {
     char *Data;
@@ -98,7 +99,7 @@ MatchPattern(char *Pattern, char *String)
     return (Result && (*P == 0));
 }
 
-inline u32
+STN_INTERNAL u32
 StringLength(char *String)
 {
 #ifdef STN_USE_SSE

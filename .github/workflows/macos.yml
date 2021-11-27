@@ -53,3 +53,9 @@ jobs:
         run: |
           cd test
           ./stn_random_unittest
+
+      - name: Run C Tests
+        shell: bash
+        run: |
+          cd test
+          ./stn_c_unittest
